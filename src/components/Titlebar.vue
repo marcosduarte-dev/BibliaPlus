@@ -2,12 +2,24 @@
 import Button from "primevue/button";
 import Toolbar from "primevue/toolbar";
 import { appWindow } from "@tauri-apps/api/window";
+import { togglePanelEvent } from "../events/TitleBarButtonsEvents";
+
+const togglePanel = () => {
+  togglePanelEvent.value = !togglePanelEvent.value;
+};
 </script>
 
 <template>
   <div class="card">
     <Toolbar data-tauri-drag-region class="toolbar">
       <template #start>
+        <Button
+          icon="pi pi-bars"
+          class="btn_toolbar"
+          severity="secondary"
+          iconClass="btn_toolbar_text"
+          @click="togglePanel()"
+        />
         <Button
           icon="pi pi-plus"
           class="btn_toolbar"
@@ -54,11 +66,14 @@ import { appWindow } from "@tauri-apps/api/window";
 </template>
 
 <style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+.toolbar {
+  padding: 0.23rem;
+  height: var(--toolbar-height);
 }
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
+.btn_toolbar {
+  width: 1.9rem;
+  margin-left: 0.15rem;
+  padding: 0.2rem 0;
 }
 </style>

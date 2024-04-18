@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Greet from "./components/Greet.vue";
+import BodyComponent from "./components/BodyComponent.vue";
 import Titlebar from "./components/Titlebar.vue";
 </script>
 
 <template>
   <Titlebar></Titlebar>
+  <BodyComponent></BodyComponent>
 </template>
 
 <style scoped>

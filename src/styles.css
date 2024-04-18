@@ -14,6 +14,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --toolbar-height: 38px;
 }
 
 html,
@@ -29,16 +31,13 @@ body {
   position: relative;
 }
 
-.toolbar {
-  padding: 0.23rem;
+#app {
+  height: 100%;
 }
 
-.btn_toolbar {
-  width: 1.9rem;
-  margin-left: 0.15rem;
-  padding: 0.2rem 0;
+.h-full {
+  height: calc(100vh - var(--toolbar-height));
 }
-
 .btn_toolbar_text {
   font-size: 0.55rem;
 }
