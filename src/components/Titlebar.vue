@@ -1,14 +1,25 @@
 <script setup lang="ts">
 import Button from "primevue/button";
 import Toolbar from "primevue/toolbar";
+import { appWindow } from "@tauri-apps/api/window";
 </script>
 
 <template>
   <div class="card">
-    <Toolbar>
+    <Toolbar data-tauri-drag-region class="toolbar">
       <template #start>
-        <Button icon="pi pi-plus" class="mr-2" severity="secondary" />
-        <Button icon="pi pi-upload" severity="secondary" />
+        <Button
+          icon="pi pi-plus"
+          class="btn_toolbar"
+          severity="secondary"
+          iconClass="btn_toolbar_text"
+        />
+        <Button
+          icon="pi pi-upload"
+          class="btn_toolbar"
+          severity="secondary"
+          iconClass="btn_toolbar_text"
+        />
       </template>
 
       <template #center>
@@ -16,9 +27,27 @@ import Toolbar from "primevue/toolbar";
       </template>
 
       <template #end>
-        <Button icon="pi pi-minus" class="mr-2" severity="secondary" />
-        <Button icon="pi pi-stop" severity="secondary" />
-        <Button icon="pi pi-times" severity="secondary" />
+        <Button
+          icon="pi pi-minus"
+          class="btn_toolbar"
+          severity="secondary"
+          @click="appWindow.minimize()"
+          iconClass="btn_toolbar_text"
+        />
+        <Button
+          icon="pi pi-stop"
+          severity="secondary"
+          class="btn_toolbar"
+          @click="appWindow.toggleMaximize()"
+          iconClass="btn_toolbar_text"
+        />
+        <Button
+          icon="pi pi-times"
+          severity="secondary"
+          class="btn_toolbar"
+          @click="appWindow.close()"
+          iconClass="btn_toolbar_text"
+        />
       </template>
     </Toolbar>
   </div>
