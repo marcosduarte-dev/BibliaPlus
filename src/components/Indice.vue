@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import { IndiceService } from "../service/indice";
 import Tree from "primevue/tree";
+import ScrollPanel from "primevue/scrollpanel";
 
 const nodes = ref();
 const selectedKey = ref();
@@ -20,10 +21,23 @@ const onNodeUnselect = (node: any) => {
 </script>
 
 <template>
-  <Tree
-    v-model:selectionKeys="selectedKey"
-    :value="nodes"
-    selectionMode="single"
-    class="w-full md:w-30rem"
-  ></Tree>
+  <ScrollPanel class="scrollPanel_indice">
+    <Tree
+      v-model:selectionKeys="selectedKey"
+      :value="nodes"
+      selectionMode="single"
+      :filter="true"
+      filterMode="strict"
+    ></Tree>
+  </ScrollPanel>
 </template>
+
+<style scoped>
+.p-tree {
+  padding: 0.5rem;
+}
+
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #249b73);
+}
+</style>
