@@ -36,8 +36,12 @@ body {
 }
 
 .h-full {
-  height: calc(100vh - var(--toolbar-height));
+  min-height: calc(100vh - var(--toolbar-height));
 }
 .btn_toolbar_text {
   font-size: 0.55rem;
+}
+.scrollPanel_indice {
+  width: 100%;
+  height: calc(99vh - var(--toolbar-height));
 }

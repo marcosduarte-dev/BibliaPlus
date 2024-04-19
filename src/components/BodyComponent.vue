@@ -3,6 +3,7 @@ import Splitter from "primevue/splitter";
 import SplitterPanel from "primevue/splitterpanel";
 import { togglePanelEvent } from "../events/TitleBarButtonsEvents";
 import { ref, watch } from "vue";
+import Indice from "./Indice.vue";
 
 const renderizarPanel1 = ref(true);
 
@@ -25,7 +26,7 @@ const resizeStart = () => {
       class="flex align-items-center justify-content-center"
       :size="25"
     >
-      Panel 1
+      <Indice />
     </SplitterPanel>
     <SplitterPanel
       class="flex align-items-center justify-content-center"
