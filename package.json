@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1",
+    "@types/adm-zip": "^0.5.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.0.2",
     "vite": "^5.0.0",

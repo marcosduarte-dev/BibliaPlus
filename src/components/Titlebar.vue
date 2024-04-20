@@ -2,10 +2,79 @@
 import Button from "primevue/button";
 import Toolbar from "primevue/toolbar";
 import { appWindow } from "@tauri-apps/api/window";
-import { togglePanelEvent } from "../events/TitleBarButtonsEvents";
+import {
+  togglePanelEvent,
+  toastMessage,
+} from "../events/TitleBarButtonsEvents";
+import { open } from "@tauri-apps/api/dialog";
+import { createDir, BaseDirectory, exists } from "@tauri-apps/api/fs";
+import { documentDir } from "@tauri-apps/api/path";
+import { invoke } from "@tauri-apps/api/tauri";
+import Menu from "primevue/menu";
+import { ref } from "vue";
+import { BibliaService } from "../service/biblia";
+
+const menu = ref();
+const items = ref([BibliaService.getBibliasInstaladasData()]);
+
+const toggle = (event: any) => {
+  menu.value.toggle(event);
+};
+
+const instalarBiblia = async () => {
+  const documentDirPath = await documentDir();
+
+  var existePastaBiblias = await exists("BibliaPlus/Biblias", {
+    dir: BaseDirectory.Document,
+  });
+
+  if (!existePastaBiblias) {
+    await createDir("BibliaPlus/Biblias", {
+      dir: BaseDirectory.Document,
+      recursive: true,
+    });
+  }
+
+  try {
+    const selectedPath = (await open({
+      multiple: false,
+    })) as string;
+    if (!selectedPath) return;
+
+    const pathNormalizado = selectedPath.replace(/\\/g, "/");
+    const nomeArquivo = pathNormalizado.split("/").pop();
+    const nomeSemExtensao = nomeArquivo!.replace(".zip", "");
+
+    var existePastaInstalar = await exists(
+      "BibliaPlus/Biblias/" + nomeSemExtensao,
+      {
+        dir: BaseDirectory.Document,
+      }
+    );
+
+    if (existePastaInstalar) {
+      sendToast("Biblia ja esta instalada!");
+    } else {
+      const output = documentDirPath + "BibliaPlus/Biblias/" + nomeSemExtensao;
+      const response = await invoke("extraindo_zip", {
+        zip: pathNormalizado,
+        output: output,
+      });
+      if (response) {
+        sendToast("Biblia instalada com sucesso!");
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const togglePanel = () => {
   togglePanelEvent.value = !togglePanelEvent.value;
+};
+
+const sendToast = (message: string) => {
+  toastMessage.value = message;
 };
 </script>
 
@@ -25,12 +94,16 @@ const togglePanel = () => {
           class="btn_toolbar"
           severity="secondary"
           iconClass="btn_toolbar_text"
+          @click="(e) => toggle(e)"
         />
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+        <label class="nome_biblia">King James</label>
         <Button
           icon="pi pi-upload"
           class="btn_toolbar"
           severity="secondary"
           iconClass="btn_toolbar_text"
+          @click="instalarBiblia()"
         />
       </template>
 
@@ -75,5 +148,10 @@ const togglePanel = () => {
   width: 1.9rem;
   margin-left: 0.15rem;
   padding: 0.2rem 0;
+}
+.nome_biblia {
+  font-size: 0.8rem;
+  margin-left: 0.8rem;
+  margin-right: 0.8rem;
 }
 </style>
