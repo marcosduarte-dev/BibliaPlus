@@ -9,8 +9,13 @@ import {
   visiblebibliaARCA,
   visiblebibliaKJA,
   visiblebibliaviva,
+  bibliaSelecionada,
+  capituloSelecionado,
 } from "./events/bibliasVisibleEvents";
 import { BibliaService } from "./service/biblia";
+import { Store } from "tauri-plugin-store-api";
+
+const store = new Store(".settings.dat");
 
 const listaPastas = ref([""]);
 
@@ -53,6 +58,17 @@ const verificarPasta = async () => {
 };
 onMounted(() => {
   verificarPasta();
+
+  store.get("biblia-selecionada").then((value) => {
+    if (value != null) {
+      bibliaSelecionada.value = value.toString();
+    }
+  });
+  store.get("capitulo-selecionado").then((value) => {
+    if (value != null) {
+      capituloSelecionado.value = value.toString();
+    }
+  });
 });
 </script>
 

@@ -11,8 +11,12 @@ import { createDir, BaseDirectory, exists } from "@tauri-apps/api/fs";
 import { documentDir } from "@tauri-apps/api/path";
 import { invoke } from "@tauri-apps/api/tauri";
 import Menu from "primevue/menu";
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { BibliaService } from "../service/biblia";
+import { Store } from "tauri-plugin-store-api";
+import { bibliaSelecionada } from "../events/bibliasVisibleEvents";
+
+const store = new Store(".settings.dat");
 
 const menu = ref();
 const items = ref([BibliaService.getBibliasInstaladasData()]);
@@ -76,6 +80,15 @@ const togglePanel = () => {
 const sendToast = (message: string) => {
   toastMessage.value = message;
 };
+
+onMounted(async () => {
+  const biblia = await store.get("biblia-selecionada");
+  if (biblia != null) {
+    bibliaSelecionada.value = biblia.toString();
+  }
+});
+
+watch(bibliaSelecionada, (value) => {});
 </script>
 
 <template>
@@ -97,7 +110,7 @@ const sendToast = (message: string) => {
           @click="(e) => toggle(e)"
         />
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-        <label class="nome_biblia">King James</label>
+        <label class="nome_biblia">{{ bibliaSelecionada }}</label>
         <Button
           icon="pi pi-upload"
           class="btn_toolbar"

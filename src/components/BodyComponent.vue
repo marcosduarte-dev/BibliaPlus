@@ -8,6 +8,7 @@ import {
 import { ref, watch } from "vue";
 import Indice from "./Indice.vue";
 import { useToast } from "primevue/usetoast";
+import VizualizacaoComponent from "./VizualizacaoComponent.vue";
 const toast = useToast();
 
 const sendSuccessToast = (message: string) => {
@@ -54,6 +55,7 @@ const resizeStart = () => {
       :size="75"
     >
       <Toast group="tl" />
+      <VizualizacaoComponent />
     </SplitterPanel>
   </Splitter>
 </template>

@@ -3,6 +3,10 @@ import { ref, onMounted } from "vue";
 import { IndiceService } from "../service/indice";
 import Tree from "primevue/tree";
 import ScrollPanel from "primevue/scrollpanel";
+import { capituloSelecionado } from "../events/bibliasVisibleEvents";
+import { Store } from "tauri-plugin-store-api";
+
+const store = new Store(".settings.dat");
 
 const nodes = ref();
 const selectedKey = ref();
@@ -11,8 +15,13 @@ onMounted(() => {
   IndiceService.getIndiceBiblia().then((data) => (nodes.value = data));
 });
 
-const onNodeSelect = (node: any) => {
-  console.log(node.label + " selected");
+const onNodeSelect = async (node: any) => {
+  if (node.key.includes("-")) {
+    console.log(node.key + " selected");
+    capituloSelecionado.value = node.label;
+    await store.set("capitulo-selecionado", node.label);
+  } else {
+  }
 };
 
 const onNodeUnselect = (node: any) => {
@@ -28,6 +37,7 @@ const onNodeUnselect = (node: any) => {
       selectionMode="single"
       :filter="true"
       filterMode="strict"
+      @nodeSelect="onNodeSelect"
     ></Tree>
   </ScrollPanel>
 </template>

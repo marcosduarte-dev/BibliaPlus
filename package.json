@@ -13,6 +13,7 @@
     "@tauri-apps/api": "^1",
     "primeicons": "^7.0.0",
     "primevue": "^3.51.0",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1",
     "vue": "^3.3.4"
   },
   "devDependencies": {

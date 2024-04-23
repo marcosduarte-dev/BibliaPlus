@@ -8,4 +8,7 @@ export const visiblebibliaKJA = ref(true);
 export const visiblebibliaNVI = ref(true);
 export const visiblebibliaviva = ref(true);
 
+export const bibliaSelecionada = ref("");
+export const capituloSelecionado = ref("");
+
 export default bibliasVisibleEvents;

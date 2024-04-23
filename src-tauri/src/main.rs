@@ -12,6 +12,7 @@ fn greet(name: &str) -> String {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::default().build())
         .invoke_handler(tauri::generate_handler![greet])
         .invoke_handler(tauri::generate_handler![extraindo_zip])
         .run(tauri::generate_context!())
