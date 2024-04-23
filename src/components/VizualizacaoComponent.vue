@@ -7,7 +7,9 @@ import {
 import { BaseDirectory, readTextFile } from "@tauri-apps/api/fs";
 
 const capitulo = ref("");
+const titulo = ref("");
 const conteudo = ref("");
+const conteudoArray = ref([""]);
 
 const setaValores = (value: string) => {
   let ultimoEspaco = value.lastIndexOf(" ");
@@ -20,9 +22,11 @@ const setaValores = (value: string) => {
 
     lerCapitulo(novaString);
     capitulo.value = novaString;
+    titulo.value = value;
   } else {
     lerCapitulo(value);
     capitulo.value = value;
+    titulo.value = value;
   }
 };
 
@@ -48,10 +52,23 @@ const lerCapitulo = async (value: string) => {
     );
 
     conteudo.value = contents;
+    conteudoArray.value = conteudo.value.split("\n");
+    conteudoArray.value.pop();
   }
 };
 </script>
 
 <template>
-  <p>{{ conteudo }}</p>
+  <div class="container">
+    <h1>{{ titulo }}</h1>
+
+    <p v-for="(verso, num) in conteudoArray">{{ num + 1 }} - {{ verso }}</p>
+  </div>
 </template>
+
+<style scoped>
+.container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+</style>

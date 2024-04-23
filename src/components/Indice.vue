@@ -23,10 +23,6 @@ const onNodeSelect = async (node: any) => {
   } else {
   }
 };
-
-const onNodeUnselect = (node: any) => {
-  console.log(node.label + " unselected");
-};
 </script>
 
 <template>
